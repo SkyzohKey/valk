@@ -11,9 +11,9 @@ and
 
 `valk new`
 
-Will depend on
+Depends on
 
-https://github.com/robertsanseries/template-for-vala-apps/
+https://github.com/TraumaD/elementary-icon-templates
 
 and
 
