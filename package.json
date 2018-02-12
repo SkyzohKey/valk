@@ -18,5 +18,9 @@
     "inquirer": "^5.1.0",
     "ora": "^1.4.0",
     "semver": "^5.5.0"
-  }
+  },
+  "engines": {
+    "node": ">=8.5.0"
+  },
+  "engineStrict": true
 }
