@@ -49,10 +49,11 @@ async function scaffold(dir, json) {
     await scaffoldArray.map(async (fileO, index, array) => {
       await fs.outputFile(`${dir}/${fileO.file}`, fileO.content);
     });
+
+    dirSpinner.succeed("Scaffolding was successful!");
   } catch (error) {
     dirSpinner.fail(error.toString());
   }
-  dirSpinner.succeed("Scaffolding was successful!");
 
   // the awesome icon templates from TraumaD
   const ROOT =
@@ -90,16 +91,17 @@ async function scaffold(dir, json) {
       sizes.map(size => {
         download(`${ROOT}/${suffix}/${size}.svg`).then(buffer => {
           return fs.outputFile(
-            `${dir}/images/icons/${size}/${json.rdnn}.svg`,
+            `${dir}/data/images/icons/${size}/${json.rdnn}.svg`,
             buffer
           );
         });
       })
     );
+
+    iconSpinner.succeed("Downloading Icons was successful!");
   } catch (error) {
     iconSpinner.fail(error.toString());
   }
-  iconSpinner.succeed('Downloading Icons was successful!')
 }
 
 module.exports = scaffold;
