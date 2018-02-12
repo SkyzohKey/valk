@@ -39,6 +39,14 @@ async function scaffold(dir, json) {
       content: gen.genGSchema(json)
     },
     {
+      file: `data/${json.rdnn}.gresource.xml`,
+      content: gen.genGResource(json)
+    },
+    {
+      file: "data/css/style.css",
+      content: gen.genCss()
+    },
+    {
       file: `data/${json.rdnn}.desktop`,
       content: gen.genDesktop(json)
     }

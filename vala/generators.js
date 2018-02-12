@@ -148,6 +148,35 @@ const genGSchema = ({ rdnn }) => {
   `;
 };
 
+const genGResource = ({ rdnn }) => {
+  return `
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+
+  <gresource prefix="/${rdnn.split(".").join("/")}/css">
+    <file alias="style.css" compressed="true">css/style.css</file>
+  </gresource>
+
+  <gresource prefix="/${rdnn.split(".").join("/")}/images">
+    <file alias="${rdnn}.svg" compressed="true" preprocess="xml-stripblanks">images/${rdnn}.svg</file>
+
+    <file alias="16-${rdnn}.svg" compressed="true" preprocess="xml-stripblanks">images/icons/16/${rdnn}.svg</file>
+
+    <file alias="24-${rdnn}.svg" compressed="true" preprocess="xml-stripblanks">images/icons/24/${rdnn}.svg</file>
+
+    <file alias="32-${rdnn}.svg" compressed="true" preprocess="xml-stripblanks">images/icons/32/${rdnn}.svg</file>
+
+    <file alias="48-${rdnn}.svg" compressed="true" preprocess="xml-stripblanks">images/icons/48/${rdnn}.svg</file>
+  
+    <file alias="64-${rdnn}.svg" compressed="true" preprocess="xml-stripblanks">images/icons/64/${rdnn}.svg</file>
+  
+    <file alias="128-${rdnn}.svg" compressed="true" preprocess="xml-stripblanks">images/icons/128/${rdnn}.svg</file>
+  </gresource>
+  
+</gresources>
+  `;
+};
+
 const genDataMeson = () => {
   return `
 icon_sizes = ['16','24','32', '48', '64', '128']
@@ -186,6 +215,13 @@ install_data(
   `;
 };
 
+const genCss = () => {
+  return `
+@define-color colorPrimary #546A79;
+@define-color textColorPrimary #ECF0F1;
+  `;
+};
+
 const genTravis = () => {
   return `
 sudo: required
@@ -211,6 +247,8 @@ module.exports = {
   genDataMeson,
   genAppData,
   genGSchema,
+  genGResource,
   genDesktop,
+  genCss,
   genTravis
 };
