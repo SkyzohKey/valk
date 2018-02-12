@@ -54,9 +54,11 @@ async function scaffold(dir, json) {
 
   let dirSpinner = ora("Scaffolding..").start();
   try {
-    await scaffoldArray.map(async (fileO, index, array) => {
-      await fs.outputFile(`${dir}/${fileO.file}`, fileO.content);
-    });
+    await Promise.all(
+      scaffoldArray.map(async (fileO, index, array) => {
+        await fs.outputFile(`${dir}/${fileO.file}`, fileO.content);
+      })
+    );
 
     dirSpinner.succeed("Scaffolding was successful!");
   } catch (error) {
