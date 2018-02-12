@@ -99,7 +99,7 @@ valk.command("new").action(async () => {
 
   // save settings to disk
   let answers = await inquirer.prompt(newProjQ);
-  await fs.outputJSON(`${__dirname}/${answers.name}/app.json`, answers);
+  await fs.outputJSON(`${process.cwd()}/${answers.name}/app.json`, answers);
 
   await scaffold(answers.name);
 });
@@ -109,7 +109,7 @@ valk.command("new").action(async () => {
  * @param {string} dir
  * and @returns {object} json
  */
-async function readApp(dir = __dirname) {
+async function readApp(dir = process.cwd()) {
   let appJsonDir = `${dir}/app.json`;
   return await fs.readJSON(appJsonDir);
 }
@@ -120,7 +120,7 @@ async function readApp(dir = __dirname) {
  * as directory name.
  */
 async function scaffold(name) {
-  const appDir = `${__dirname}/${name}`;
+  const appDir = `${process.cwd()}/${name}`;
   let appJSON = await readApp(appDir);
 
   switch (appJSON.type) {
