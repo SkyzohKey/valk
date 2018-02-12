@@ -1,0 +1,23 @@
+{
+  "name": "valk",
+  "version": "0.1.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/harisvsulaiman/valk.git"
+  },
+  "description": "CLI to Scaffold, build, Release and test Elementary OS apps",
+  "license": "MIT",
+  "bin": {
+    "valk": "index.js"
+  },
+  "dependencies": {
+    "commander": "^2.14.1",
+    "fs-extra": "^5.0.0",
+    "inquirer": "^5.1.0",
+    "semver": "^5.5.0"
+  },
+  "engines": {
+    "node": "^4"
+  }
+}
