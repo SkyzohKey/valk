@@ -1,4 +1,6 @@
 const fs = require("fs-extra");
+const download = require("download");
+
 const gen = require("./generators");
 
 async function scaffold(dir, json) {
@@ -15,6 +17,10 @@ async function scaffold(dir, json) {
     {
       file: "post_install.py",
       content: gen.genPostInstallScript()
+    },
+    {
+      file: ".travis.yml",
+      content: gen.genTravis()
     },
     {
       file: "src/meson.build",
@@ -38,9 +44,50 @@ async function scaffold(dir, json) {
     }
   ];
 
-  scaffoldArray.map(async (fileO, index, array) => {
+  await scaffoldArray.map(async (fileO, index, array) => {
     await fs.outputFile(`${dir}/${fileO.file}`, fileO.content);
   });
+
+  // the awesome icon templates from TraumaD
+  const ROOT =
+    "https://github.com/TraumaD/elementary-icon-templates/raw/master/Icons";
+  const sizes = ["16", "24", "32", "48", "64", "128"];
+
+  let suffix;
+  // download icons.
+  switch (json.icon) {
+    case "circle":
+      suffix = "Circle%20Icon";
+      break;
+
+    case "rectangle-H":
+      suffix = "Rectangle-H%20Icon";
+      break;
+
+    case "rectangle-V":
+      suffix = "Rectangle-V%20Icon";
+      break;
+
+    case "square":
+      suffix = "Square%20Icon";
+      break;
+
+    default:
+      suffix = "Square%20Icon";
+      break;
+  }
+
+  // save all icons
+  Promise.all(
+    sizes.map(size => {
+      download(`${ROOT}/${suffix}/${size}.svg`).then(buffer => {
+        return fs.outputFile(
+          `${dir}/images/icons/${size}/${json.rdnn}.svg`,
+          buffer
+        );
+      });
+    })
+  );
 }
 
 module.exports = scaffold;

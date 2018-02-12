@@ -186,6 +186,23 @@ install_data(
   `;
 };
 
+const genTravis = () => {
+  return `
+sudo: required
+language: generic
+
+services:
+- docker
+
+script:
+- wget -O- https://raw.githubusercontent.com/harisvsulaiman/element-build/master/script.sh | sh -
+
+branches:
+except:
+    - /^debian\/\d/
+  `;
+};
+
 module.exports = {
   genRootMeson,
   genGitIgnore,
@@ -194,5 +211,6 @@ module.exports = {
   genDataMeson,
   genAppData,
   genGSchema,
-  genDesktop
+  genDesktop,
+  genTravis
 };

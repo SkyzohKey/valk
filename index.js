@@ -88,6 +88,12 @@ valk.command("new").action(async () => {
       name: "type",
       message: "Type ?",
       choices: ["vala"]
+    },
+    {
+      type: "list",
+      name: "icon",
+      message: "Icon Type ?",
+      choices: ["circle", "rectangle-H", "rectangle-V", "square"]
     }
   ];
 
