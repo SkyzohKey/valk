@@ -52,19 +52,6 @@ async function scaffold(dir, json) {
     }
   ];
 
-  let dirSpinner = ora("Scaffolding..").start();
-  try {
-    await Promise.all(
-      scaffoldArray.map(async (fileO, index, array) => {
-        await fs.outputFile(`${dir}/${fileO.file}`, fileO.content);
-      })
-    );
-
-    dirSpinner.succeed("Scaffolding was successful!");
-  } catch (error) {
-    dirSpinner.fail(error.toString());
-  }
-
   // the awesome icon templates from TraumaD
   const ROOT =
     "https://github.com/TraumaD/elementary-icon-templates/raw/master/Icons";
@@ -94,24 +81,46 @@ async function scaffold(dir, json) {
       break;
   }
 
-  // save all icons
-  let iconSpinner = ora("Downloading Icons...").start();
   try {
     await Promise.all(
-      sizes.map(size => {
-        download(`${ROOT}/${suffix}/${size}.svg`).then(buffer => {
-          return fs.outputFile(
+      await Promise.all(
+        scaffoldArray.map(async (fileO, index, array) => {
+          let dirSpinner = ora(`Scaffolding.. : ${fileO.file}`).start();
+
+          try {
+            await fs.outputFile(`${dir}/${fileO.file}`, fileO.content);
+
+            dirSpinner.succeed(`Scaffolding ${fileO.file} successful!`);
+          } catch (error) {
+            dirSpinner.fail();
+          }
+        })
+      ),
+      // download icons
+      sizes.map(async size => {
+        let iconSpinner = ora(
+          `Downloading Icon ${json.icon} ${size}...`
+        ).start();
+
+        try {
+          let buffer = await download(`${ROOT}/${suffix}/${size}.svg`);
+          await fs.outputFile(
             `${dir}/data/images/icons/${size}/${json.rdnn}.svg`,
             buffer
           );
-        });
+
+          iconSpinner.succeed(`Icon ${size}: downloaded!`);
+        } catch (error) {
+          iconSpinner.fail();
+        }
       })
     );
-
-    iconSpinner.succeed("Downloading Icons was successful!");
   } catch (error) {
-    iconSpinner.fail(error.toString());
+    await cleanup(dir);
   }
 }
 
+async function cleanup(dir) {
+  await fs.rmdir(dir);
+}
 module.exports = scaffold;
