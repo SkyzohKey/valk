@@ -67,7 +67,7 @@ executable('${rdnn}',
     dependencies :[
     ${dependencies
       .map(dependency => {
-        return `dependency(${dependency})`;
+        return `dependency("${dependency}")`;
       })
       .join(",\n    ")}
     ],
